@@ -1,0 +1,22 @@
+#!/bin/sh
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/F_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/G_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/H_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/I_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/J_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/K_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/L_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/M_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/N_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/O_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/P_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/Q_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/R_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/S_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/T_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/U_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/V_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/W_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/X_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/Y_abrvjt.html
+wget http://images.webofknowledge.com/WOKRS522R4/help/zh_CN/WOS/Z_abrvjt.html
