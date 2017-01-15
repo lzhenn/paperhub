@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
-from pdfminer.pdfpage import PDFPage
-from cStringIO import StringIO
 def convert_pdf_to_txt(path):
+    from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+    from pdfminer.converter import TextConverter
+    from pdfminer.layout import LAParams
+    from pdfminer.pdfpage import PDFPage
+    from cStringIO import StringIO
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     codec = 'utf-8'
