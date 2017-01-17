@@ -1,53 +1,80 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from __future__ import division
 import urllib2
 from bs4 import BeautifulSoup
 import os
 import re
 from lib_convert_pdf_to_txt2 import convert_pdf_to_txt
-
 # Score the possible title line
 def score_it(item):
     ini_score = 100
-    
+    uppers=0
+    digits=0
+    item=item.strip()
     # Special sign
-    cut_score = (item.count(',')+item.count('.')+item.count(':')+item.count(';')+item.count('@')+item.count('*')+item.count('/')+item('-')-1)*5
-    if cut_score >0:
+    cut_score = (item.count(',')+item.count('.')+item.count(':')+item.count(';')+item.count('@')+item.count('*')+item.count('/')+item.count('-')-1)*5
+    if cut_score >0 :
         ini_score=ini_score-cut_score
-    
-    # Numbers Uppercases
+    # Numbers and Uppercases
     for ch in item:  
         if ch.isupper():  
             uppers += 1  
         elif ch.isdigit():  
-            digits += 1  
-# Climate Dyn Parser     
-def parser_cd(headlines):
-
-
-
-# Journal from AMS Parser
-def parser_ams(headlines):
-
-
-
+            digits += 1 
+    if (uppers+digits)/len(item) > 0.3:
+        ini_score = ini_score - 50
+    item_list = item.split(' ')
+    if (len(item_list) > 7) and (len(item)/len(item_list)>4):
+        ini_score = ini_score+5
+    
+    #print item+" S:"+str(ini_score)
+    return ini_score
+# Find doi
+def find_doi(items):
+    for item in items:
+        item=item.upper()
+        doi_pos=item.find('DOI')
+        if doi_pos>=0:
+            return item[doi_pos:] 
+        else:
+            return ''
 # Title line parser 
 def title_parser(headlines):
-    head_items=headlines.split('\n')
+    items0=headlines.split('\n')
+    head_items = [ item for item in items0 if item != '' ]
+    title='' 
+    title=find_doi(head_items)
+    if title !='':
+        return title
     
     high_score=0 # Init high score
-
+    id_score=0
+    high_idx=-1
+    title_pos= -1 # Title position for special journal
     for idx, item in enumerate(head_items):
-        if item.find('Clim Dyn'):
-            title=parser_cd(head_items)
-        elif item.find('J O'): 
-            title=parser_ams(head_items)      
-
-        id_score=score_it(item)
+        if item.find('Clim Dyn')>=0:
+            title_pos=3
+        elif item.find('Climate Dynamics')>=0:
+            title_pos=2
+        elif item.find('J O')>=0 or item.find('M O')>=0: 
+            title_pos=3
+        elif item.find('GEOPHYSICAL RESEARCH LETTERS') >=0 or item.find('JOURNAL OF GEOPHYSICAL RESEARCH')>=0:
+            title_pos=1
+        if title_pos >0:
+            break
+        if len(item)>5:
+            id_score=score_it(item)
         if id_score > high_score:
             high_score=id_score
-            id_high=idx
+            high_idx=idx
+    if high_idx>=0:
+        try:
+            title=head_items[high_idx]+' '+head_items[high_idx+1]
+        except:
+            title=head_items[high_idx]
+    title=head_items[title_pos]+' '+head_items[title_pos+1]
     return title
 
 
