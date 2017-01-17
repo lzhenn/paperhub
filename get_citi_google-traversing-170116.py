@@ -81,31 +81,29 @@ def title_parser(headlines):
 
 
 # Request 
-headers = { 'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0' }
+headers = { 'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.360' }
 
-text_pdf=convert_pdf_to_txt('./warehouse/temp.pdf')
-text_front=text_pdf[0:300]
-
-title= title_parser(text_front)
-text_list=title.split()
-content="+".join(text_list)
-url='https://scholar.google.com/scholar?hl=en&q='+content+'&btnG=&as_sdt=1%2C5&as_sdtp='
-req = urllib2.Request(url, None, headers)
-response = urllib2.urlopen(req).read()
-soup = BeautifulSoup(response,'lxml')
-for link in soup.find_all(onclick=re.compile('gs_ocit')):
-    str_click=link.get('onclick').split('\'')
-    url2='https://scholar.google.com/scholar?q=info:'+str_click[1]+':scholar.google.com/&output=cite&scirp=0&hl=en'
-    print str_click[1]
+pdf=os.popen('ls ./warehouse/*.pdf').readlines()
+for item in pdf:
+    item=item.replace('\n','')
+    text_pdf=convert_pdf_to_txt(item)
+    text_front=text_pdf[0:300]
     
-    req2 = urllib2.Request(url2, None, headers)
-    response2 = urllib2.urlopen(req2).read()
-    soup2 = BeautifulSoup(response2,'lxml')
-    for link in soup2.find_all('a', text='RefMan'):
-        req_final=urllib2.Request(link.get('href'), None, headers)
-        response_final = urllib2.urlopen(req_final).read()
-        fr=open('./warehouse/temp.ris','w')
-        fr.write(response_final)
-        fr.close()
-
-print '---------------------------------------------------'
+    print title_parser(text_front)
+    print '---------------------------------------------------'
+    text_list=text_front.split()
+    content="+".join(text_list)
+    url='https://scholar.google.com/scholar?hl=en&q='+content+'&btnG=&as_sdt=1%2C5&as_sdtp='
+    req = urllib2.Request(url, None, headers)
+    response = urllib2.urlopen(req).read()
+    soup = BeautifulSoup(response,'lxml')
+    for link in soup.find_all(onclick=re.compile('gs_ocit')):
+        str_click=link.get('onclick').split('\'')
+        url2='https://scholar.google.com/scholar?q=info:'+str_click[1]+':scholar.google.com/&output=cite&scirp=0&hl=en'
+        print str_click[1]
+        
+        req = urllib2.Request(url2, None, headers)
+        response2 = urllib2.urlopen(req).read()
+        soup2 = BeautifulSoup(response2)
+        for link in soup.find_all('RefMan'):
+            print link.get('href')

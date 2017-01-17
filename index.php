@@ -7,9 +7,20 @@
    <head>
 	   <title>Paperhub</title>
    </head>
-   <body>   
+   <body>
+        <form action="solve_pdf.php" method="post" enctype="multipart/form-data">
+		 <label for="file"><b>请输入pdf文件的URL</b></label>
+         <br /><br />
+         <b>URL:</b><input type="text" name="url_pdf"/>
+         <br /><br />
+         <p>或者请上传您的pdf文件:</p>
+         <br /><br />
+         <input type="file" name="file" id="file" />
+		   <input style="position:absolute; left:400px"type="submit" name="submit" value="提交" />
+      </form>
+      <hr>
 	   <form action="solve_enw.php" method="post" enctype="multipart/form-data">
-		   <label for="file"><b>请输入endnote格式enw导入文件的URL</b></label>
+		 <label for="file"><b>请输入endnote格式enw导入文件的URL</b></label>
          <br /><br />
          <b>URL:</b><input type="text" name="url_enw"/>
          <br /><br />
