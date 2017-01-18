@@ -9,7 +9,9 @@
    </head>
    <body>
         <form action="solve_pdf.php" method="post" enctype="multipart/form-data">
-		 <label for="file"><b>请输入pdf文件的URL</b></label>
+         <p>El Niño; La Niña</p>
+    <p>g_fig_rank    =   (/"(a)","(b)","(c)","(d)","(e)","(f)","(g)","(h)","(i)","(j)","(k)","(l)","(m)","(n)"/)</p>
+         <label for="file"><b>请输入pdf文件的URL</b></label>
          <br /><br />
          <b>URL:</b><input type="text" name="url_pdf"/>
          <br /><br />
