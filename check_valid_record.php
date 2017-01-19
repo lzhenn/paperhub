@@ -1,4 +1,5 @@
 <?php
+// Scan the warehouse and renew the list.dat
    $files=scandir("./warehouse");
    $i=0;
    $n_valid = 0;
@@ -6,10 +7,8 @@
    $valid_list ="";
    foreach($files as $fn){
       $i++;
-      if ($i<=2)     //skip . and ..
-         continue;
-
-
+      if ($fn=="." || $fn=="..") // Debug: . and ..
+          continue;
       $fn_block = explode(".",$fn);
       if ($fn_block[1]=="pdf")   //skip pdf
          continue;
