@@ -123,14 +123,15 @@ for item in pdf:
                     fr.close()
                 # For End: RIS Request
                 break # We only care about the first return
-            success=True
             # For End: Hash Request
+            success=True
         except:
             attempts +=1
             print 'Request error, try another time...'
             if attempts==3:
                 print 'Cannot access google, exit'
                 os._exit(0)
+        # Try end
     # While End: Try Test
     os.system('php solve_temp.php \"'+item+'\"')
 
