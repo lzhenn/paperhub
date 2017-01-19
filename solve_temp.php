@@ -5,7 +5,7 @@
  *                                        L_Zealot
  *                                      18 Jan, 2017
  ****************************************************/
-   //Read in the test list
+   //Read in the warehouse list
    $fdata = fopen("./list.dat","r");
    $i=0;
    while(!feof($fdata)){
@@ -23,10 +23,10 @@
    }
    fclose($fdata);
 
-   $new_name=solve_enw($short,$all_paper);  // solve the enw file
+   $new_name=solve_enw($short,$all_paper,$argv[1]);  // solve the enw file
    
-   function solve_enw($short,$all_paper){
-      $file    =  fopen("./test/temp.ris","r");
+   function solve_enw($short,$all_paper, $old_name){
+      $file    =  fopen("./warehouse/temp.ris","r");
 
       //initialize all flags
 
@@ -51,9 +51,9 @@
          $mid_array=explode(" ",$line);
          $mid_array2=explode("-",$line);
          if (!strcasecmp($mid_array[0],"%T") || !strcasecmp($mid_array[0],"TI") || !strcasecmp($mid_array[0],"T1"))
-            echo ($line."\n");
+            //echo ($line."\n");
          else
-            echo ($line."\n");
+            //echo ($line."\n");
          if(trim($mid_array[0])=="JF"||trim($mid_array[0])=="JO"||trim($mid_array[0])=="T2")
             $mid_array[0]="JA";
          switch(trim($mid_array[0]))
@@ -222,7 +222,7 @@
       }
 
       if ($r_flag){
-         echo("There is already ".$old_paper.".pdf. an old paper in test\n");
+         echo("There is already ".$old_paper.".pdf. an old paper in warehouse\n");
          exit;
       }else{
       
@@ -232,15 +232,16 @@
             echo "Rename: " . $new_name.".ris\n";
          //write the URL and Label data
          if ($enw_flag){
-            $file=fopen("./test/temp.ris","a");
+            $file=fopen("./warehouse/temp.ris","a");
             fwrite($file,"%F ".$new_name.".pdf\n");
-            fwrite($file,"%U http://222.200.180.66:1234/L_Zealot/paperhub/test/".$new_name.".pdf\n");
+            fwrite($file,"%U http://222.200.180.66:1234/L_Zealot/paperhub/warehouse/".$new_name.".pdf\n");
             fwrite($file,"%> internal-pdf://".$new_name.".pdf\n");
             fclose($file);
          }
          else{
-            $file=fopen("./test/temp.ris","r");
+            $file=fopen("./warehouse/temp.ris","r");
             $line0 = 0;
+            $newfp="";
             while (! feof($file)){
                $line = fgets($file);
                $line0 += 1;
@@ -251,25 +252,25 @@
                $newfp.=$line; 
             } 
             fclose($file); 
-            $file=fopen("./test/temp.ris","w");
+            $file=fopen("./warehouse/temp.ris","w");
             fwrite($file,$newfp);
             fwrite($file,"LB  - ".$new_name.".pdf\n");
-            fwrite($file,"UR  - http://222.200.180.66:1234/L_Zealot/paperhub/test/".$new_name.".pdf\n");
+            fwrite($file,"UR  - http://222.200.180.66:1234/L_Zealot/paperhub/warehouse/".$new_name.".pdf\n");
             fwrite($file,"L1  - internal-pdf://".$new_name.".pdf\n");
             fwrite($file,"ER  - \n");
             fclose($file);
          }
          if ($enw_flag){
-            rename("./test/temp.ris","./test/".$new_name.".ris");
+            rename("./warehouse/temp.ris","./warehouse/".$new_name.".ris");
          }
          else{
-            rename("./test/temp.ris","./test/".$new_name.".ris");
-            rename($argv[1], "./test/".$new_name.".pdf");
+            rename("./warehouse/temp.ris","./warehouse/".$new_name.".ris");
+            rename($old_name, "./warehouse/".$new_name.".pdf");
          }
          //write the paper list
-         //$file=fopen("./list.dat","a");
-         //fwrite($file,$new_name."\n");
-         //fclose($file);
+         $file=fopen("./list.dat","a");
+         fwrite($file,$new_name."\n");
+         fclose($file);
          return $new_name; 
       }
  

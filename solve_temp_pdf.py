@@ -99,27 +99,38 @@ for item in pdf:
     content="+".join(text_list)
     url='https://scholar.google.com/scholar?hl=en&q='+content+'&btnG=&as_sdt=1%2C5&as_sdtp='
     print 'request...'
-    req = urllib2.Request(url, None, headers)
-    response = urllib2.urlopen(req).read()
-    soup = BeautifulSoup(response,'lxml')
-    for link in soup.find_all(onclick=re.compile('gs_ocit')):
-        str_click=link.get('onclick').split('\'')
-        url2='https://scholar.google.com/scholar?q=info:'+str_click[1]+':scholar.google.com/&output=cite&scirp=0&hl=en'
-        print 'Returned hash: '+str_click[1]
-        
-        req2 = urllib2.Request(url2, None, headers)
-        response2 = urllib2.urlopen(req2).read()
-        soup2 = BeautifulSoup(response2,'lxml')
-        for link in soup2.find_all('a', text='RefMan'):
-            req_final=urllib2.Request(link.get('href'), None, headers)
-            response_final = urllib2.urlopen(req_final).read()
-            fr=open('./test/temp.ris','w')
-            fr.write(response_final)
-            fr.close()
-        # For End: RIS Request
-        break # We only care about the first return
-    # For End: Hash Request
     
+    attempts =0
+    success = False
+    while attempts <3 and not success:
+        try:
+            req = urllib2.Request(url, None, headers)
+            response = urllib2.urlopen(req).read()
+            soup = BeautifulSoup(response,'lxml')
+            for link in soup.find_all(onclick=re.compile('gs_ocit')):
+                str_click=link.get('onclick').split('\'')
+                url2='https://scholar.google.com/scholar?q=info:'+str_click[1]+':scholar.google.com/&output=cite&scirp=0&hl=en'
+                print 'Returned hash: '+str_click[1]
+                
+                req2 = urllib2.Request(url2, None, headers)
+                response2 = urllib2.urlopen(req2).read()
+                soup2 = BeautifulSoup(response2,'lxml')
+                for link in soup2.find_all('a', text='RefMan'):
+                    req_final=urllib2.Request(link.get('href'), None, headers)
+                    response_final = urllib2.urlopen(req_final).read()
+                    fr=open('./test/temp.ris','w')
+                    fr.write(response_final)
+                    fr.close()
+                # For End: RIS Request
+                break # We only care about the first return
+            # For End: Hash Request
+        except:
+            attemps +=1
+            print 'Request error, try another time...'
+            if attemps==3:
+                print 'Cannot access google, exit'
+                os._exit(0)
+    # While End: Try Test
     os.system('php solve_temp.php \"'+item+'\"')
 
 # For End: Dir Scan
