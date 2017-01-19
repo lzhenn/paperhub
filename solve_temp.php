@@ -50,10 +50,6 @@
          $n_line += 1;     // the line that we are processing
          $mid_array=explode(" ",$line);
          $mid_array2=explode("-",$line);
-         if (!strcasecmp($mid_array[0],"%T") || !strcasecmp($mid_array[0],"TI") || !strcasecmp($mid_array[0],"T1"))
-            //echo ($line."\n");
-         else
-            //echo ($line."\n");
          if(trim($mid_array[0])=="JF"||trim($mid_array[0])=="JO"||trim($mid_array[0])=="T2")
             $mid_array[0]="JA";
          switch(trim($mid_array[0]))
@@ -222,7 +218,7 @@
       }
 
       if ($r_flag){
-         echo("There is already ".$old_paper.".pdf. an old paper in warehouse\n");
+         echo("There is already ".$old_paper.".pdf an old paper in warehouse\n");
          exit;
       }else{
       
