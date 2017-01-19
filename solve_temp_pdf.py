@@ -118,16 +118,17 @@ for item in pdf:
                 for link in soup2.find_all('a', text='RefMan'):
                     req_final=urllib2.Request(link.get('href'), None, headers)
                     response_final = urllib2.urlopen(req_final).read()
-                    fr=open('./test/temp.ris','w')
+                    fr=open('./warehouse/temp.ris','w')
                     fr.write(response_final)
                     fr.close()
                 # For End: RIS Request
                 break # We only care about the first return
+            success=True
             # For End: Hash Request
         except:
-            attemps +=1
+            attempts +=1
             print 'Request error, try another time...'
-            if attemps==3:
+            if attempts==3:
                 print 'Cannot access google, exit'
                 os._exit(0)
     # While End: Try Test
