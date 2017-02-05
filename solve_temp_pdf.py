@@ -1,12 +1,22 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-
+#
+#
+#   main   
+#       title_parser 
+#           find_doi
+#           score_it
+#
+#
 from __future__ import division
 import urllib2
 from bs4 import BeautifulSoup
 import os
 import re
 from lib_convert_pdf_to_txt2 import convert_pdf_to_txt
+
+
+
 
 # Score the possible title line
 def score_it(item):
@@ -32,6 +42,7 @@ def score_it(item):
     
     #print item+" S:"+str(ini_score)
     return ini_score
+
 # Find doi
 def find_doi(items):
     doi_pos=-1
@@ -42,8 +53,9 @@ def find_doi(items):
         if doi_pos>=0:
             return item[doi_pos:]
     return ''
+
 # Title line parser 
-def title_parser(headlines):
+def title_parser(headlines, fname):
     items0=headlines.split('\n')
     head_items = [ item for item in items0 if item != '' ]
     title='' 
@@ -75,12 +87,16 @@ def title_parser(headlines):
     if high_idx>=0 and title=='':
         try:
             title=head_items[high_idx]+' '+head_items[high_idx+1]
+            title_flag=raw_input('Is ##'+title+'## the title of '+fname+' (Y/N)?')
+            if (title_flag!='Y') and (title_flag!='y'):
+                title=raw_input('Please manually input the title for '+fname+':')
         except:
             title=head_items[high_idx]
     return title
 
 
 
+# Main
 # Request 
 headers = { 'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0' }
 
@@ -89,11 +105,12 @@ pdf=os.popen('ls ./temp/*.pdf').readlines()
 for item in pdf:
 
     item=item.replace('\n','')
+    print '-----------------------------------------------------------'
     print 'Start to process '+item
     text_pdf=convert_pdf_to_txt(item)
     text_front=text_pdf[0:300]
     
-    title= title_parser(text_front)
+    title= title_parser(text_front, item)
     print 'processed title: '+title
     text_list=title.split()
     content="+".join(text_list)
