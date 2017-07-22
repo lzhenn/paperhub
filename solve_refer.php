@@ -497,7 +497,7 @@
          $inner_ref .= "(". $year0.")";
          break;
       } //switch off
-
+        
       return "<td>".$inner_ref."</td><td>".$outer_ref."</td><td>".$name_line1.$ref_line."</td><td>".$name_line0.$ref_line."</td>";
 
    } //function off
