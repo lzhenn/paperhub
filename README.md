@@ -368,7 +368,7 @@ Minor Mods：
 首先是pdf解析的问题，尝试了若干python库，发现只有pdfminer靠谱一些。之后是题目识别，有doi，明显title行的好说，但是很多没有明显标识的title行。这种情况只能根据自己了解的一些特征去识别，但是发现准确率并不是很高。后面考虑用机器学习方法去做识别吧，当然这又不知道要拖多久的任务了。
 真正的大坑在google请求的问题上：
 毫无疑问，由于伟光正，国内服务器发出的请求发生了不可描述。改hosts并不奏效，会卡死在某些请求处，看起来只有ss这类手段能行。测试期间为了方便，当然是选择外网啦。
-google做了不少反爬策略，文章标志做了唯一的hash function。所以要首先请求道这个hash value，然后再用这个hash value去请求citition数据。
+google做了不少反爬策略，首先抓包找到了citition页面的url。然后发现这一url里文章标志做了唯一的hash function。所以要首先请求到这个hash value，然后再用这个hash value去请求citition数据。
 爬了几十篇后，发现被ban掉了，查了下原来简单的浏览器模仿不行，需要处理cookies。算啦，先留坑吧。
 
 General Mods：
